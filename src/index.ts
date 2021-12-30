@@ -81,6 +81,7 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
   const centre = this.matter.verts.centre(verts)
 
   const obj = this.matter.add.fromVertices(centre.x, 600 + centre.y, verts, { ignoreGravity: true, isStatic: false }, true, 0.01, 10)
+  obj.isStatic = true
   cursors = this.input.keyboard.createCursorKeys();
   var ball = this.matter.add.image(Phaser.Math.Between(0, 800), -1, 'balls', Phaser.Math.Between(0, 5));
 
