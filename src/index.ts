@@ -46,17 +46,19 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
     800, 0,
     0, 0,
   ]
-  // path.push(0, -300)
-  // const N = 3
-  // const dx = 800 / (N + 1)
-  // for (let i = 0; i < N; i++) {
-  //   x += dx
-  //   let y = -Math.floor(Math.random() * 200)
-  //   path.push(x, y)
-  // }
-  // // path.push(800, -150)
-  // path.push(800, 0)
-  // path.push(0, 0)
+
+  path.push(0, -300)
+  const N = 3
+  const dx = 800 / (N + 1)
+
+  for (let i = 0; i < N; i++) {
+    x += dx
+    let y = -Math.floor(Math.random() * 200)
+    path.push(x, y)
+  }
+  // path.push(800, -150)
+  path.push(800, 0)
+  path.push(0, 0)
   console.log(path)
 
   const polygon = new Phaser.Geom.Polygon(path)
@@ -71,69 +73,12 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
 
   // const body = this.matter.add.polygon(0, 0, path.length - 1, 0, { isStatic: true })
   const verts = this.matter.verts.fromPath(pathStr, polygon)
-  console.log("CENTRE: ", this.matter.verts.centre(verts))
-
-
-  let xMax = -1
-  let yMax = -1
-  let xMin = Infinity
-  let yMin = Infinity
-
-  let xSum = 0
-  let ySum = 0
-  let xSum1 = 0
-  let ySum1 = 0
-  const area = calculateArea(polygon.points, true)
-  polygon.calculateArea()
-  let centreX = 0
-  let centreY = 0
-  for (let i = 0; i < polygon.points.length; i++) {
-    const p1 = polygon.points[i]
-    const p2 = polygon.points[(i + 1) % polygon.points.length]
-    // console.log("p2: ", p2)
-
-    const x1 = p1.x
-    const y1 = p1.y
-
-    const x2 = p2.x
-    const y2 = p2.y
-
-    xSum1 += p1.x
-    ySum1 += p1.y
-
-    const cross = (p1.x * p2.y) - (p1.y * p2.x);
-    const tempX = (p1.x + p2.x) * cross
-    const tempY = (p1.y + p2.y) * cross
-    // console.log("Cross: ", cross)
-    centreX += tempX
-    centreY += tempY
-    // console.log("temp: ", centreX, centreY)
-
-    xSum += (x1 + x2) * (x1 * y2 - x2 * y1)
-    ySum += (y1 + y2) * (x1 * y2 - x2 * y1)
-    xMax = Math.max(xMax, Math.max(x1, x2))
-    xMin = Math.min(xMin, Math.min(x1, x2))
-    yMax = Math.max(yMax, Math.max(y1, y2))
-    yMin = Math.min(yMin, Math.min(y1, y2))
-  }
-  centreX /= 6 * area
-  centreY /= 6 * area
-  console.log("centre: ", centreX, centreY)
-
-  xSum1 += polygon.points[polygon.points.length - 1].x
-  ySum1 += polygon.points[polygon.points.length - 1].y
-
-  xSum1 /= polygon.points.length
-  ySum1 /= polygon.points.length
-  console.log("COM1: ", xSum1, ySum1)
-
-  xSum /= 6 * polygon.area
-  ySum /= 6 * polygon.area
-  console.log("COM2: ", xSum, ySum)
+  const centre = this.matter.verts.centre(verts)
+  console.log("CENTRE: ", centre)
 
 
   // const obj = this.matter.add.fromVertices(341, 600 - 108, verts, { ignoreGravity: true, isStatic: true }, true, 0.01, 10)
-  const obj = this.matter.add.fromVertices(xSum, 600 + ySum, verts, { ignoreGravity: true, isStatic: true }, true, 0.01, 10)
+  const obj = this.matter.add.fromVertices(centre.x, 600 + centre.y, verts, { ignoreGravity: true, isStatic: true }, true, 0.01, 10)
 
   // obj.position.x += obj.centerOffset.x
   // obj.position.y = 600 + obj.centerOffset.y
