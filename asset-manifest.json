@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/tankwars/static/css/main.e6c13ad2.css",
+    "main.js": "/tankwars/static/js/main.8c25a73f.js",
+    "index.html": "/tankwars/index.html",
+    "main.e6c13ad2.css.map": "/tankwars/static/css/main.e6c13ad2.css.map",
+    "main.8c25a73f.js.map": "/tankwars/static/js/main.8c25a73f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8c25a73f.js"
+  ]
+}
