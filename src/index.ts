@@ -31,6 +31,14 @@ const calculateArea = (vertices: Phaser.Geom.Point[], signed: boolean) => {
   return Math.abs(area) / 2;
 }
 
+function releaseBall() {
+  //@ts-ignore
+  var ball = this.matter.add.image(Phaser.Math.Between(32, 768), -200, 'balls', Phaser.Math.Between(0, 5));
+
+  ball.setCircle();
+  ball.setBounce(0.96);
+}
+
 const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
   this.add.image(400, 300, 'sky');
 
@@ -38,17 +46,17 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
   let path: number[] = []
   let x = 0
 
-  path = [
-    0, -300,
-    300, -400,
-    500, -300,
-    800, -100,
-    800, 0,
-    0, 0,
-  ]
+  // path = [
+  //   0, -300,
+  //   300, -200,
+  //   500, -300,
+  //   800, -100,
+  //   800, 0,
+  //   0, 0,
+  // ]
 
-  path.push(0, -300)
-  const N = 3
+  path.push(0, -100)
+  const N = 10
   const dx = 800 / (N + 1)
 
   for (let i = 0; i < N; i++) {
@@ -56,7 +64,7 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
     let y = -Math.floor(Math.random() * 200)
     path.push(x, y)
   }
-  // path.push(800, -150)
+  path.push(800, -100)
   path.push(800, 0)
   path.push(0, 0)
   console.log(path)
@@ -67,31 +75,19 @@ const create: Phaser.Types.Scenes.SceneCreateCallback = function () {
   graphics.fillStyle(0x00aa00);
   graphics.fillPoints(polygon.points, true);
   const pathStr = path.join(" ")
-  console.log(polygon.points)
-  //@ts-ignore
-  // this.matter.add.gameObject(polygon, { shape: { type: 'fromVerts', verts: path, flagInternal: true } })
 
-  // const body = this.matter.add.polygon(0, 0, path.length - 1, 0, { isStatic: true })
+  //@ts-ignore
   const verts = this.matter.verts.fromPath(pathStr, polygon)
   const centre = this.matter.verts.centre(verts)
-  console.log("CENTRE: ", centre)
 
-
-  // const obj = this.matter.add.fromVertices(341, 600 - 108, verts, { ignoreGravity: true, isStatic: true }, true, 0.01, 10)
-  const obj = this.matter.add.fromVertices(centre.x, 600 + centre.y, verts, { ignoreGravity: true, isStatic: true }, true, 0.01, 10)
-
-  // obj.position.x += obj.centerOffset.x
-  // obj.position.y = 600 + obj.centerOffset.y
-  //@ts-ignore
-  window.obj = obj
-  // console.log(obj)
-
+  const obj = this.matter.add.fromVertices(centre.x, 600 + centre.y, verts, { ignoreGravity: true, isStatic: false }, true, 0.01, 10)
   cursors = this.input.keyboard.createCursorKeys();
   var ball = this.matter.add.image(Phaser.Math.Between(0, 800), -1, 'balls', Phaser.Math.Between(0, 5));
+
   //@ts-ignore
   ball.setCircle();
   ball.setBounce(1.0);
-
+  this.time.addEvent({ delay: 250, callback: releaseBall, callbackScope: this, repeat: 256 });
 }
 
 const update: Phaser.Types.Scenes.SceneUpdateCallback = function () {
