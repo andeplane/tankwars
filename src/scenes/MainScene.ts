@@ -77,6 +77,6 @@ export class MainScene extends Phaser.Scene {
 
     const obj = this.matter.add.fromVertices(centre.x, 600 + centre.y, verts, { ignoreGravity: true, isStatic: false }, true, 0.01, 10)
     obj.isStatic = true
-    this.time.addEvent({ delay: 2500, callback: this.releaseBall, callbackScope: this, repeat: 256 });
+    this.time.addEvent({ delay: 250, callback: this.releaseBall, callbackScope: this, repeat: 256 });
   }
 }
