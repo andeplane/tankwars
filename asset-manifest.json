@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/tankwars/static/js/main.16c62a52.js",
+    "main.js": "/tankwars/static/js/main.a41f805e.js",
     "index.html": "/tankwars/index.html",
-    "main.16c62a52.js.map": "/tankwars/static/js/main.16c62a52.js.map"
+    "main.a41f805e.js.map": "/tankwars/static/js/main.a41f805e.js.map"
   },
   "entrypoints": [
-    "static/js/main.16c62a52.js"
+    "static/js/main.a41f805e.js"
   ]
 }
